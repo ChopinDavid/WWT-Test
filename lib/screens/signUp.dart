@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wwt_test/services/auth.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -7,6 +8,12 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  String email = "";
+  String password = "";
+  String error = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,69 +27,96 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       body: Container(
         margin: EdgeInsets.all(20),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              style: TextStyle(
-                  color: Colors.white
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                style: TextStyle(
+                    color: Colors.white
+                ),
+                decoration: InputDecoration(
+                    hintText: "Email",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                    )
+                ),
+                validator: (val) => val.isEmpty ? "Enter an email address" : null,
+                onChanged: (val) {
+                  setState(() => email = val);
+                },
               ),
-              decoration: InputDecoration(
-                  hintText: "Email",
-                  hintStyle: TextStyle(
-                    color: Colors.white,
-                  )
+              SizedBox(
+                height: 20,
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextField(
-              obscureText: true,
-              style: TextStyle(
-                  color: Colors.white
+              TextFormField(
+                obscureText: true,
+                style: TextStyle(
+                    color: Colors.white
+                ),
+                decoration: InputDecoration(
+                    hintText: "Password",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                    )
+                ),
+                validator: (val) => val.length < 8 ? "Enter a password 8+ characters long" : null,
+                onChanged: (val) {
+                  setState(() => password = val);
+                },
               ),
-              decoration: InputDecoration(
-                  hintText: "Password",
-                  hintStyle: TextStyle(
-                    color: Colors.white,
-                  )
+              SizedBox(
+                height: 20,
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextField(
-              obscureText: true,
-              style: TextStyle(
-                  color: Colors.white
+              TextFormField(
+                obscureText: true,
+                style: TextStyle(
+                    color: Colors.white
+                ),
+                decoration: InputDecoration(
+                    hintText: "Repeat Password",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                    )
+                ),
+                validator: (val) => val != password ? "Passwords must match" : null,
               ),
-              decoration: InputDecoration(
-                  hintText: "Repeat Password",
-                  hintStyle: TextStyle(
-                    color: Colors.white,
-                  )
+              SizedBox(height: 20),
+              Text(
+                error,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 14,
+                ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RaisedButton(
-                    child: Text(
-                        "Sign Up"
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RaisedButton(
+                      child: Text(
+                          "Sign Up"
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          dynamic result = await AuthService.shared.registerWithEmailAndPassword(email, password);
+                          if (result == null) {
+                            setState(() => error = "Please supply a valid email");
+                          } else {
+                            setState(() => error = "");
+                            Navigator.pop(context);
+                            print("Successfully registered user!");
+                          }
+                        }
+                      },
                     ),
-                    onPressed: segue,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
       ),
     );
-  }
-
-  void segue() {
-
   }
 }
