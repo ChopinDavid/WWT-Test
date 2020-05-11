@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -23,32 +22,30 @@ class _LoginPageState extends State<LoginPage> {
         margin: EdgeInsets.all(20),
         child: Column(
           children: <Widget>[
-            Text(
-                "Username",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-              ),
-            ),
             TextField(
               style: TextStyle(
-                  color: Colors.white
+                color: Colors.white
+              ),
+              decoration: InputDecoration(
+                hintText: "Email",
+                hintStyle: TextStyle(
+                  color: Colors.white,
+                )
               ),
             ),
             SizedBox(
               height: 20,
             ),
-            Text(
-                "Password",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-              ),
-            ),
             TextField(
               obscureText: true,
               style: TextStyle(
                 color: Colors.white
+              ),
+              decoration: InputDecoration(
+                  hintText: "Password",
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                  )
               ),
             ),
             Expanded(
