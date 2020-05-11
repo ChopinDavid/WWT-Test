@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "71506978145",
+    "firebase_url": "https://wwt-test-98e9d.firebaseio.com",
+    "project_id": "wwt-test-98e9d",
+    "storage_bucket": "wwt-test-98e9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71506978145:android:fe7b81f350a209c820d120",
+        "android_client_info": {
+          "package_name": "com.example.wwt_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71506978145-pm3rmthtfq7d18is9lpn0k8asdjn5dke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ_srsowskx9OI0ITa0K0-rlnBMBNr-9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "71506978145-pm3rmthtfq7d18is9lpn0k8asdjn5dke.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "71506978145-5h9c0ts03dotgtajn9aq9vivhn2upsvd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.allcapssoftware.wwtTest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
