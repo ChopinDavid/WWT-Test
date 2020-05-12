@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:wwt_test/models/user.dart';
 import 'package:wwt_test/services/auth.dart';
+import 'package:wwt_test/services/firestore.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
 
   String email = "";
+  String name = "";
   String password = "";
   String error = "";
 
@@ -44,6 +46,24 @@ class _SignUpPageState extends State<SignUpPage> {
                 validator: (val) => val.isEmpty ? "Enter an email address" : null,
                 onChanged: (val) {
                   setState(() => email = val);
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                style: TextStyle(
+                    color: Colors.white
+                ),
+                decoration: InputDecoration(
+                    hintText: "Display Name",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                    )
+                ),
+                validator: (val) => val.isEmpty ? "Enter a display name" : null,
+                onChanged: (val) {
+                  setState(() => name = val);
                 },
               ),
               SizedBox(
@@ -99,11 +119,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          dynamic result = await AuthService.shared.registerWithEmailAndPassword(email, password);
+                          dynamic result = await AuthService.shared.registerWithEmailPasswordName(email, password, name);
                           if (result == null) {
                             setState(() => error = "Please supply a valid email");
                           } else {
                             setState(() => error = "");
+                            FirestoreService.shared.createUser(result as User);
                             Navigator.pop(context);
                             print("Successfully registered user!");
                           }

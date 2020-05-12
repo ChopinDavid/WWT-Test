@@ -1,42 +1,77 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'package:wwt_test/models/user.dart';
 import 'package:wwt_test/services/auth.dart';
+import 'package:wwt_test/services/firestore.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  User user;
+
+  void getUser() async {
+    FirebaseUser firebaseUser = await AuthService.shared.firebaseUser();
+    String uid = AuthService.shared.userFromFirebaseUser(firebaseUser).uid;
+    User user = await FirestoreService.shared.getUser(uid);
+    setState(() => this.user = user);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 1, 80, 161),
-      appBar: AppBar(
-        title: Text("Home"),
-        backgroundColor: Color.fromARGB(255, 2, 65, 128),
-        actions: <Widget>[
-          FlatButton.icon(
-            onPressed: () async {
-              await AuthService.shared.signOut();
-            },
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            label: Text(
-              "Sign Out",
-              style: TextStyle(
-                color: Colors.white
-              ),
+        backgroundColor: Color.fromARGB(255, 1, 80, 161),
+        appBar: AppBar(
+          title: Text("Home"),
+          backgroundColor: Color.fromARGB(255, 2, 65, 128),
+          actions: <Widget>[
+            FlatButton.icon(
+                onPressed: () async {
+                  await AuthService.shared.signOut();
+                },
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  "Sign Out",
+                  style: TextStyle(
+                      color: Colors.white
+                  ),
+                )
             )
-          )
-        ],
-      ),
-      body: Center(
-        child: Text(
-          "Welcome!",
-          style: TextStyle(
-            color: Colors.white
-          ),
+          ],
         ),
-      )
+        body: Center(
+          child: Builder(
+              builder: (context) {
+                if (user != null) {
+                  return Text(
+                    "Welcome ${user.name}!",
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  );
+                } else {
+                  return CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        Colors.white),
+                  );
+                }
+              }
+          )
+        )
     );
   }
 }
