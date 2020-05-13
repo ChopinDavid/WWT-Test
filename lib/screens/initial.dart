@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:wwt_test/screens/login.dart';
 import 'package:wwt_test/screens/signUp.dart';
 
@@ -9,7 +8,6 @@ class InitialPage extends StatefulWidget {
 }
 
 class _InitialPageState extends State<InitialPage> {
-
   void navigateToLogin() {
     Navigator.push(
       context,
@@ -41,15 +39,11 @@ class _InitialPageState extends State<InitialPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     RaisedButton(
-                      child: Text(
-                          "Login"
-                      ),
+                      child: Text("Login"),
                       onPressed: navigateToLogin,
                     ),
                     RaisedButton(
-                      child: Text(
-                          "Sign Up"
-                      ),
+                      child: Text("Sign Up"),
                       onPressed: navigateToSignUp,
                     )
                   ],
@@ -57,7 +51,6 @@ class _InitialPageState extends State<InitialPage> {
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }

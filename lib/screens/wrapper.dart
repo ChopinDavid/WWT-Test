@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:wwt_test/models/user.dart';
-import 'package:wwt_test/screens/initial.dart';
 import 'package:wwt_test/screens/home.dart';
+import 'package:wwt_test/screens/initial.dart';
 
 class Wrapper extends StatelessWidget {
   @override
@@ -25,16 +24,15 @@ class Wrapper extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                            Colors.white),
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(Colors.white),
                       ),
                     ],
                   ),
                 )
               ],
             ),
-          )
-      );
+          ));
     } else {
       if (user.uid == null) {
         return InitialPage();

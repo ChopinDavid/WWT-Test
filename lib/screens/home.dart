@@ -1,18 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/widgets.dart';
 import 'package:wwt_test/models/user.dart';
 import 'package:wwt_test/services/auth.dart';
 import 'package:wwt_test/services/firestore.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
   User user;
 
   void getUser() async {
@@ -25,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    getUser();
   }
 
   @override
@@ -46,32 +43,56 @@ class _HomePageState extends State<HomePage> {
                 ),
                 label: Text(
                   "Sign Out",
-                  style: TextStyle(
-                      color: Colors.white
-                  ),
-                )
-            )
+                  style: TextStyle(color: Colors.white),
+                ))
           ],
         ),
-        body: Center(
-          child: Builder(
-              builder: (context) {
-                if (user != null) {
-                  return Text(
-                    "Welcome ${user.name}!",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
-                  );
-                } else {
-                  return CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Colors.white),
-                  );
-                }
-              }
-          )
-        )
-    );
+        body: Center(child: Builder(builder: (context) {
+          if (user != null) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Welcome ${user.name}!",
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: FadeInImage(
+                    height: 200,
+                    width: 200,
+                    image: NetworkImage(user.photoUrl),
+                    placeholder: AssetImage("assets/user.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Welcome!",
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.asset(
+                    "assets/user.png",
+                    height: 200,
+                    width: 200,
+                  ),
+                ),
+              ],
+            );
+          }
+        })));
   }
 }

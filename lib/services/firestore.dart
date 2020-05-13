@@ -7,16 +7,20 @@ class FirestoreService {
   static FirestoreService shared = FirestoreService();
 
   void createUser(User user) async {
-    await _firestore.collection("Users").document(user.uid).setData(user.toMap());
+    await _firestore
+        .collection("Users")
+        .document(user.uid)
+        .setData(user.toMap());
   }
 
   Future getUser(String uid) async {
     User user;
     await _firestore.collection("Users").document(uid).get().then((value) {
-      Map<String,dynamic> userMap = value.data;
+      Map<String, dynamic> userMap = value.data;
       String name = userMap["name"] as String;
       String email = userMap["email"] as String;
-      user = User(uid: uid, name: name, email: email);
+      String photoUrl = userMap["photoUrl"] as String;
+      user = User(uid: uid, name: name, email: email, photoUrl: photoUrl);
     });
     return user;
   }

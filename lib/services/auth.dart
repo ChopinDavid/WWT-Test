@@ -1,6 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wwt_test/models/user.dart';
+import 'package:wwt_test/services/storage.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -30,12 +32,14 @@ class AuthService {
   }
 
   //Register with email and password
-  Future registerWithEmailPasswordName(String email, String password, String name) async {
+  Future registerWithEmailPasswordNameImage(
+      String email, String password, String name, File image) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser firebaseUser = result.user;
       User user = userFromFirebaseUser(firebaseUser);
+      user.photoUrl = await StorageService.shared.uploadFile(image, user.uid);
       user.email = email;
       user.name = name;
       return user;
