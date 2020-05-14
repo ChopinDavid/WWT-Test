@@ -61,15 +61,27 @@ class _HomePageState extends State<HomePage> {
                   height: 20,
                 ),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: FadeInImage(
-                    height: 200,
-                    width: 200,
-                    image: NetworkImage(user.photoUrl),
-                    placeholder: AssetImage("assets/user.png"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(100),
+                    child: Builder(
+                      builder: (context) {
+                        if (user.photoUrl == null) {
+                          return Image.asset(
+                            "assets/user.png",
+                            height: 200,
+                            width: 200,
+                            fit: BoxFit.cover,
+                          );
+                        } else {
+                          return FadeInImage(
+                            height: 200,
+                            width: 200,
+                            image: NetworkImage(user.photoUrl),
+                            placeholder: AssetImage("assets/user.png"),
+                            fit: BoxFit.cover,
+                          );
+                        }
+                      },
+                    )),
               ],
             );
           } else {

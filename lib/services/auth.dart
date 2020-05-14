@@ -39,7 +39,9 @@ class AuthService {
           email: email, password: password);
       FirebaseUser firebaseUser = result.user;
       User user = userFromFirebaseUser(firebaseUser);
-      user.photoUrl = await StorageService.shared.uploadFile(image, user.uid);
+      if (image != null) {
+        user.photoUrl = await StorageService.shared.uploadFile(image, user.uid);
+      }
       user.email = email;
       user.name = name;
       return user;

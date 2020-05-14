@@ -178,6 +178,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void setFile() async {
     dynamic result = await StorageService.shared.filePicker();
+    if (result == null) {
+      return;
+    }
     setState(() {
       result is File ? file = result : showError(result as Error);
     });
