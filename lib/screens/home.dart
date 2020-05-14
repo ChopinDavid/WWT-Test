@@ -1,3 +1,4 @@
+import 'package:dart_notification_center/dart_notification_center.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,13 +18,23 @@ class _HomePageState extends State<HomePage> {
     FirebaseUser firebaseUser = await AuthService.shared.firebaseUser();
     String uid = AuthService.shared.userFromFirebaseUser(firebaseUser).uid;
     User user = await FirestoreService.shared.getUser(uid);
-    setState(() => this.user = user);
+    if (user == null) {
+      return;
+    } else {
+      setState(() => this.user = user);
+    }
   }
 
   @override
   void initState() {
     super.initState();
     getUser();
+
+    DartNotificationCenter.subscribe(
+      channel: "UserUpdated",
+      observer: this,
+      onNotification: (options) => getUser(),
+    );
   }
 
   @override

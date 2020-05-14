@@ -17,6 +17,9 @@ class FirestoreService {
     User user;
     await _firestore.collection("Users").document(uid).get().then((value) {
       Map<String, dynamic> userMap = value.data;
+      if (userMap == null) {
+        return;
+      }
       String name = userMap["name"] as String;
       String email = userMap["email"] as String;
       String photoUrl = userMap["photoUrl"] as String;

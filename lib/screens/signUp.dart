@@ -6,6 +6,7 @@ import 'package:wwt_test/models/user.dart';
 import 'package:wwt_test/services/auth.dart';
 import 'package:wwt_test/services/firestore.dart';
 import 'package:wwt_test/services/storage.dart';
+import 'package:dart_notification_center/dart_notification_center.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -163,7 +164,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                   setState(() => error = "");
                                   User user = result as User;
                                   FirestoreService.shared
-                                      .createUser(result as User);
+                                      .createUser(user);
+                                  DartNotificationCenter.post(channel: "UserUpdated");
                                   Navigator.pop(context);
                                   print("Successfully registered user!");
                                 }
